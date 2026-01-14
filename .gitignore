@@ -1,0 +1,19 @@
+# Compiled files
+*.exe
+*.o
+*.obj
+
+# Build directories
+bin/
+obj/
+Debug/
+Release/
+
+# IDE files
+*.cbp
+*.layout
+*.depend
+
+
+
+
