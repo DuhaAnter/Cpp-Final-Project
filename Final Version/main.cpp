@@ -1,6 +1,16 @@
 #include <iostream>
-#include <limits>
+#include "income.h"
 using namespace std;
+
+
+/////////////////////////////
+// Real definitions here (only once in the whole project!)
+Income incomes[1000];
+string message;
+int incomeCount = 0;
+/////////////////////////////////
+
+
 
 void clearInput() // if user enters anything but what we want
 {
@@ -29,36 +39,41 @@ void incomeMenu()
     while(true)
     {
 
-    cout << "\n=== Income Management ===\n";
-    cout << "1. Add new income\n";
-    cout << "2. Update income\n";
-    cout << "3. View all incomes\n";
-    cout << "4. Delete income\n";
-    cout << "5. Back\n";
+        cout << "\n=== Income Management ===\n";
+        cout << "1. Add new income\n";
+        cout << "2. Update income\n";
+        cout << "3. View all incomes\n";
+        cout << "4. Delete income\n";
+        cout << "5. Back\n";
 
-    int choice = readChoice(1,5);
-    if (choice == 5) return;
+        int choice = readChoice(1,5);
+        if (choice == 5)
+        {
+            saveToFile();
+            return;
 
-    cout << "\nYou selected: ";
-    switch (choice)
-    {
-    case 1:
-        cout << "Add income\n";
-        break;
-    case 2:
-        cout << "Update income\n";
-        break;
-    case 3:
-        cout << "View incomes\n";
-        break;
-    case 4:
-        cout << "Delete income\n";
-        break;
-    }
-    // Here you can call another function or just wait
-    cout << "\nPress Enter to continue...";
-    cin.get();         // this one eats the leftover Enter → finishes immediately
-    cin.get();         // this one waits for the real new Enter from the user
+        }
+
+
+        switch (choice)
+        {
+        case 1:
+            addIncome();
+            break;
+        case 2:
+            updateIncome();
+            break;
+        case 3:
+            viewIncomes(incomes, incomeCount);
+            break;
+        case 4:
+           deleteIncome();
+            break;
+        }
+        // Here you can call another function or just wait
+        cout << "\nPress Enter to continue...";
+        cin.get();         // this one eats the leftover Enter → finishes immediately
+        cin.get();         // this one waits for the real new Enter from the user
 
 
     }//end of while
@@ -69,36 +84,36 @@ void expenseMenu()
     while(true)
     {
 
-    cout << "\n=== Expense Management ===\n";
-    cout << "1. Add new Expense\n";
-    cout << "2. Update Expense\n";
-    cout << "3. View all Expenses\n";
-    cout << "4. Delete Expense\n";
-    cout << "5. Back\n";
+        cout << "\n=== Expense Management ===\n";
+        cout << "1. Add new Expense\n";
+        cout << "2. Update Expense\n";
+        cout << "3. View all Expenses\n";
+        cout << "4. Delete Expense\n";
+        cout << "5. Back\n";
 
-    int choice = readChoice(1,5);
-    if (choice == 5) return;
+        int choice = readChoice(1,5);
+        if (choice == 5) return;
 
-    cout << "\nYou selected: ";
-    switch (choice)
-    {
-    case 1:
-        cout << "Add Expense\n";
-        break;
-    case 2:
-        cout << "Update Expense\n";
-        break;
-    case 3:
-        cout << "View Expenses\n";
-        break;
-    case 4:
-        cout << "Delete Expense\n";
-        break;
-    }
-    // Here you can call another function or just wait
-    cout << "\nPress Enter to continue...";
-    cin.get();         // this one eats the leftover Enter → finishes immediately
-    cin.get();         // this one waits for the real new Enter from the user
+        cout << "\nYou selected: ";
+        switch (choice)
+        {
+        case 1:
+            cout << "Add Expense\n";
+            break;
+        case 2:
+            cout << "Update Expense\n";
+            break;
+        case 3:
+            cout << "View Expenses\n";
+            break;
+        case 4:
+            cout << "Delete Expense\n";
+            break;
+        }
+        // Here you can call another function or just wait
+        cout << "\nPress Enter to continue...";
+        cin.get();         // this one eats the leftover Enter → finishes immediately
+        cin.get();         // this one waits for the real new Enter from the user
 
 
     }//end of while
@@ -106,6 +121,21 @@ void expenseMenu()
 ///////////////////////////////////////////////////////////////
 int main()
 {
+
+//before any thing load data
+
+
+    // Load data ONCE when program starts
+    if (readFromFile(incomes, incomeCount, message))
+    {
+        cout << "Loaded " << incomeCount << " incomes\n";
+    }
+    else
+    {
+        cout << "Failed to load: " << message << endl;
+    }
+
+
     cout << "Welcome to Personal Finance Manager\n\n";
 
     while (true)
@@ -120,6 +150,7 @@ int main()
 
         if (choice == 0)
         {
+            saveToFile();
             cout << "\nGoodbye! Have a nice day \n";
             break;
         }

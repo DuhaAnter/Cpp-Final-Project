@@ -1,0 +1,32 @@
+inside the update income function:
+
+
+
+C++int choice;
+cin >> choice;
+
+// Clear leftover newline
+cin.ignore(INT_MAX, '\n');
+The problem in simple words
+When the user types a number and presses Enter, two things actually go into the input buffer:
+textUser types: 3   [Enter]
+What goes into buffer:  '3'   '\n'   ← the newline character from pressing Enter
+
+cin >> choice; reads only the number (3)
+But it leaves the \n (Enter key) sitting in the input buffer!
+
+Later in your program, when you do getline(cin, someString) (for example to read source or date),
+getline sees that leftover \n and thinks:
+"Oh, the user already pressed Enter → I'll read an empty line!"
+→ Result: the program skips the next text input or reads empty string.
+What each line really does
+C++int choice;
+cin >> choice;                  // reads the number (3), leaves \n in buffer
+C++cin.ignore(INT_MAX, '\n');      // "Throw away everything until you find a newline (\n), and throw the \n too"
+
+cin.ignore() = "ignore/discard characters"
+INT_MAX = "ignore as many characters as possible" (very big number)
+'\n' = "stop ignoring when you find the newline character"
+
+So basically:
+"Please clean up any leftover Enter key junk so the next input is clean"
