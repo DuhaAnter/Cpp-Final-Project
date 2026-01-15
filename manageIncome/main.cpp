@@ -12,6 +12,7 @@ struct Income
     string source;
 
 };
+
 int main()
 {
     Income inc1;
@@ -76,13 +77,13 @@ int main()
     int id = stoi(idStr);           // "1" → 1
     double amount = stod(amountStr); // "10000" → 10000.0
 
-// 6. Now store in your struct
+// 6. Now store in  struct
     Income income;
     income.id = id;
     income.source = source;
     income.amount = amount;
     income.date = date;
 
-    cout<<income.amount;
+    cout<<income.source;
     return 0;
 }
