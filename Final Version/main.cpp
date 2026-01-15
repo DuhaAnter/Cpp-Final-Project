@@ -1,15 +1,17 @@
 #include <iostream>
 #include "income.h"
+#include "expense.h"
 using namespace std;
 
 
 /////////////////////////////
-// Real definitions here (only once in the whole project!)
+// Global variables - actual definition here (only once!)
 Income incomes[1000];
 string message;
 int incomeCount = 0;
 /////////////////////////////////
-
+Expense expenses[1000];
+int expenseCount = 0;
 
 
 void clearInput() // if user enters anything but what we want
@@ -50,6 +52,7 @@ void incomeMenu()
         if (choice == 5)
         {
             saveToFile();
+
             return;
 
         }
@@ -67,7 +70,7 @@ void incomeMenu()
             viewIncomes(incomes, incomeCount);
             break;
         case 4:
-           deleteIncome();
+            deleteIncome();
             break;
         }
         // Here you can call another function or just wait
@@ -92,22 +95,26 @@ void expenseMenu()
         cout << "5. Back\n";
 
         int choice = readChoice(1,5);
-        if (choice == 5) return;
+        if (choice == 5)
+        {
+            saveExpensesToFile();
+            return;
+        }
 
-        cout << "\nYou selected: ";
+
         switch (choice)
         {
         case 1:
-            cout << "Add Expense\n";
+            addExpense();
             break;
         case 2:
-            cout << "Update Expense\n";
+            updateExpense();
             break;
         case 3:
-            cout << "View Expenses\n";
+            viewExpenses(expenses,expenseCount);
             break;
         case 4:
-            cout << "Delete Expense\n";
+            deleteExpense();
             break;
         }
         // Here you can call another function or just wait
@@ -122,10 +129,10 @@ void expenseMenu()
 int main()
 {
 
-//before any thing load data
+    //before any thing load data
 
 
-    // Load data ONCE when program starts
+    // Load income data
     if (readFromFile(incomes, incomeCount, message))
     {
         cout << "Loaded " << incomeCount << " incomes\n";
@@ -134,7 +141,16 @@ int main()
     {
         cout << "Failed to load: " << message << endl;
     }
-
+    // Load expense data
+    if (readExpensesFromFile(expenses, expenseCount, message))
+    {
+        cout << "Loaded " << expenseCount << " expenses\n";
+    }
+    else
+    {
+        cout << "Failed to load: " << message << endl;
+    }
+/////////////////////////////////////////////////////////////////////////
 
     cout << "Welcome to Personal Finance Manager\n\n";
 
